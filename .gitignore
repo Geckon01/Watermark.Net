@@ -40,6 +40,8 @@ ScaffoldingReadMe.txt
 ~$*
 *~
 CodeCoverage/
+.vs
+Watermark.Net/.vs
 
 # MSBuild Binary and Structured Log
 *.binlog

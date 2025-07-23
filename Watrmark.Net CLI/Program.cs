@@ -8,6 +8,8 @@ using Watrmark.Net_CLI.Watermak.Net.CLI.Constants;
 using Watrmark.Net_CLI;
 using System.Runtime.InteropServices;
 
+//The CLI version is not fully ready yet. To be implemented in future
+
 Parser.Default.ParseArguments<ConsoleOptions>(args)
   .WithParsed<ConsoleOptions>(option => {
       switch (option.WatermarkType)
@@ -24,6 +26,8 @@ Parser.Default.ParseArguments<ConsoleOptions>(args)
               else
                   ProccessDirectoryText(option);
               break;
+          default:
+              throw new ArgumentException("Watermark type not provided.");
       }
 
   })

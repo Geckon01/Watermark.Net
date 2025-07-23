@@ -230,13 +230,12 @@ namespace Watermark.Net.src.WatermarkNet.Core
             {
                 case ImagePosition.TopCenter:
                     return HorizontalAlignment.Center;
-                    break;
                 case ImagePosition.Center:
                     return HorizontalAlignment.Center;
-                    break;
                 case ImagePosition.BottomCenter:
                     return HorizontalAlignment.Center;
-                    break;
+                default:
+                    throw new ArgumentException("Image position must be provided.");
             }
             return HorizontalAlignment.Left; 
         }
@@ -257,7 +256,6 @@ namespace Watermark.Net.src.WatermarkNet.Core
 
             // Create a new font
             Font scaledFont = new Font(watermark.Font, scalingFactor / 16 * (watermark.Font.Size * watermark.Scale));
-            ImagePosition[] centerImagePositions = { ImagePosition.CenterLeft, ImagePosition.CenterRight, ImagePosition.Center };
             //processingContext.SetGraphicsOptions(new GraphicsOptions { AlphaCompositionMode = SixLabors.ImageSharp.PixelFormats.PixelAlphaCompositionMode.Clear});
             //If set, apply backround color
             if (watermark.BackroundColor != null)

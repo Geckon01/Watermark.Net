@@ -68,7 +68,7 @@ namespace UnitTest
             watermark.Position = Watermark.Net.src.WatermarkNet.Enums.ImagePosition.Center;
             watermark.Scale = 1;
             watermark.Pave = true;
-            var resultedImage = watermarker.ProcessDirectory("TestImages", watermark);
+            watermarker.ProcessDirectory("TestImages", watermark);
 
             Assert.IsTrue(Directory.GetFiles(watermarker.OutputDir)?.Length > 0);
         }
