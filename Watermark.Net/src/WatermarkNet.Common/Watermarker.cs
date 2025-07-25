@@ -235,7 +235,7 @@ namespace Watermark.Net.src.WatermarkNet.Core
                 case ImagePosition.BottomCenter:
                     return HorizontalAlignment.Center;
                 default:
-                    throw new ArgumentException("Image position must be provided.");
+                    return HorizontalAlignment.Center;
             }
             return HorizontalAlignment.Left; 
         }
