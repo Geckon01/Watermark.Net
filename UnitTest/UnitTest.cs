@@ -15,9 +15,15 @@ namespace UnitTest
             var watermarker = new Watermarker();
             var watermark = new TextWatermark();
 
+            var availableFont = SystemFonts.Families.FirstOrDefault();
+            if (availableFont == default)
+            {
+                throw new Exception("No available fonts found in the system");
+            }
+
             watermark.Text = "Test";
             watermark.Color = Color.White;
-            watermark.Font = SystemFonts.CreateFont("Arial", 1);
+            watermark.Font = availableFont.CreateFont(1);
             watermark.Position = Watermark.Net.src.WatermarkNet.Enums.ImagePosition.BottomCenter;
             watermark.RotateAngle = 90;
             var resultedImage = watermarker.ProcessImage("TestImages/2.png", "test/text", watermark);
@@ -47,9 +53,15 @@ namespace UnitTest
             var watermarker = new Watermarker("test/text/pave");
             var watermark = new TextWatermark();
 
+            var availableFont = SystemFonts.Families.FirstOrDefault();
+            if (availableFont == default)
+            {
+                throw new Exception("No available fonts found in the system");
+            }
+
             watermark.Text = "Test";
             watermark.Color = Rgba32.ParseHex("FFFFFF50");
-            watermark.Font = SystemFonts.CreateFont("Arial", 14);
+            watermark.Font = availableFont.CreateFont(1);
             watermark.Scale = 1f;
             watermark.Position = Watermark.Net.src.WatermarkNet.Enums.ImagePosition.TopLeft;
             watermark.Pave = true;
