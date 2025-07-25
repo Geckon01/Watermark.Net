@@ -1,4 +1,5 @@
 # Watermark.Net
+[![.NET](https://github.com/Geckon01/Watermark.Net/actions/workflows/dotnet.yml/badge.svg)](https://github.com/Geckon01/Watermark.Net/actions/workflows/dotnet.yml)
 ![NuGet Version](https://img.shields.io/nuget/v/Watermark.Net)
 ![NuGet Downloads](https://img.shields.io/nuget/dt/Watermark.Net?link=https%3A%2F%2Fwww.nuget.org%2Fpackages%2FWatermark.Net%2F)
 ![Lecense](https://img.shields.io/badge/license-MIT-green)
