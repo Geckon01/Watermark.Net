@@ -75,8 +75,13 @@ namespace Watermark.Net.src.WatermarkNet.Types
         /// </summary>
         public TextWatermark()
         {
+            var availableFont = SystemFonts.Families.FirstOrDefault();
+            if (availableFont == default)
+            {
+                throw new Exception("No available fonts found in the system");
+            }
             _color = Color.White;
-            _font = SystemFonts.CreateFont("Arial", 12);
+            _font = availableFont.CreateFont(1);
             _padding = 10f;
         }
     }
