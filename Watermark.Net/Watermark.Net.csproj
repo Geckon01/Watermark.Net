@@ -1,16 +1,16 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
-    <AssemblyVersion>0.25.7.23</AssemblyVersion>
+    <AssemblyVersion>0.26.5.13</AssemblyVersion>
     <Title>Waternark.NET</Title>
     <Authors>Geckon01</Authors>
     <Description>Watermark.Net is .NET library for adding text and image watermarks to images. Built on SixLabors.ImageSharp, it provides a simple yet comprehensive API for all your watermarking needs.</Description>
-    <FileVersion>0.25.7.23</FileVersion>
-    <Version>0.25.7.23</Version>
+    <FileVersion>0.26.5.13</FileVersion>
+    <Version>0.26.5.13</Version>
   </PropertyGroup>
 
   <ItemGroup>
