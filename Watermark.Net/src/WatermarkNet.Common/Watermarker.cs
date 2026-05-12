@@ -255,7 +255,7 @@ namespace Watermark.Net.src.WatermarkNet.Core
             float scalingFactor = Math.Min(imgSize.Width / size.Width, imgSize.Height / size.Height);
 
             // Create a new font
-            Font scaledFont = new Font(watermark.Font, scalingFactor / 16 * (watermark.Font.Size * watermark.Scale));
+            SixLabors.Fonts.Font scaledFont = new SixLabors.Fonts.Font(watermark.Font, scalingFactor / 16 * (watermark.Font.Size * watermark.Scale));
             //processingContext.SetGraphicsOptions(new GraphicsOptions { AlphaCompositionMode = SixLabors.ImageSharp.PixelFormats.PixelAlphaCompositionMode.Clear});
             //If set, apply backround color
             if (watermark.BackroundColor != null)
