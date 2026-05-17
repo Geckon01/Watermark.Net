@@ -5,7 +5,6 @@ using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using Watermark.Net.src.WatermarkNet.Enums;
 using Watermark.Net.src.WatermarkNet.Models.Definitions;
-using Watermark.Net.src.WatermarkNet.Types;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using Image = SixLabors.ImageSharp.Image;
@@ -36,17 +35,17 @@ namespace Watermark.Net.src.WatermarkNet.Core
         /// <param name="directory">Source directory containing images to process.</param>
         /// <param name="watermark">Watermark configuration.</param>
         /// <returns>List of processed images with watermark information.</returns>
-        public List<WmarkedImage> ProcessDirectory<T>(string directory, T watermark)
+        public List<ResultImage> ProcessDirectory<T>(string directory, T watermark)
             where T : IWatermarkDefinition
         {
-            List<WmarkedImage> processedImages = new List<WmarkedImage>();
+            List<ResultImage> processedImages = new List<ResultImage>();
             foreach (var imageFile in Directory.GetFiles(directory))
             {
                 //Do not process directories and hidden files
                 if (File.GetAttributes(imageFile).HasFlag(FileAttributes.Directory) || File.GetAttributes(imageFile).HasFlag(FileAttributes.Hidden))
                     continue;
 
-                WmarkedImage? resultedImage = null;
+                ResultImage? resultedImage = null;
                 if (typeof(T).IsAssignableTo(typeof(ImageWatermark)))
                 {
                     var concreateWatermark = (ImageWatermark)Convert.ChangeType(watermark, typeof(ImageWatermark));
@@ -71,13 +70,13 @@ namespace Watermark.Net.src.WatermarkNet.Core
         /// <param name="watermark">Image watermark configuration.</param>
         /// <returns>Processed image information or null on failure.</returns>
         /// <exception cref="FileNotFoundException">Thrown when source image or watermark image is missing.</exception>
-        public WmarkedImage? ProcessImage(string imagePath, string outputDirectory, ImageWatermark watermark)
+        public ResultImage? ProcessImage(string imagePath, string outputDirectory, ImageWatermark watermark)
         {
             if (!File.Exists(imagePath)) { throw new FileNotFoundException("Source file not found!", imagePath); }
             if (!File.Exists(watermark.ImagePath)) { throw new FileNotFoundException("Watermark file not found!", imagePath); }
             if (!Directory.Exists(outputDirectory)) { Directory.CreateDirectory(outputDirectory); }
 
-            WmarkedImage? resultedImage = null;
+            ResultImage? resultedImage = null;
             using (var targetImage = Image.Load(imagePath))
             using (var watermarkImage = Image.Load(watermark.ImagePath))
             {
@@ -87,7 +86,7 @@ namespace Watermark.Net.src.WatermarkNet.Core
 
                 using (var markedImage = targetImage.Clone(ctx => this.ApplyScalingWaterMarkImage(ctx, watermark, watermarkImage, targetImage)))
                 {
-                    resultedImage = new WmarkedImage(markedImage, outputDirectory + Path.DirectorySeparatorChar + Path.GetFileName(imagePath));
+                    resultedImage = new ResultImage(markedImage, outputDirectory + Path.DirectorySeparatorChar + Path.GetFileName(imagePath));
                     markedImage.Save(resultedImage.Path);
                 }
             }
@@ -102,17 +101,17 @@ namespace Watermark.Net.src.WatermarkNet.Core
         /// <param name="watermark">Text watermark configuration.</param>
         /// <returns>Processed image information or null on failure.</returns>
         /// <exception cref="FileNotFoundException">Thrown when source image is missing.</exception>
-        public WmarkedImage? ProcessImage(string imagePath, string outputDirectory, TextWatermark watermark)
+        public ResultImage? ProcessImage(string imagePath, string outputDirectory, TextWatermark watermark)
         {
             if(!File.Exists(imagePath)) { throw new FileNotFoundException("Source file not found!", imagePath); }
             if (!Directory.Exists(outputDirectory)) { Directory.CreateDirectory(outputDirectory); }
 
-            WmarkedImage? resultedImage = null;
+            ResultImage? resultedImage = null;
             using (var targetImage = Image.Load(imagePath))
             {
                 using (var markedImage = targetImage.Clone(ctx => this.ApplyScalingWaterMarkText(ctx, watermark)))
                 {
-                    resultedImage = new WmarkedImage(markedImage, outputDirectory + Path.DirectorySeparatorChar + Path.GetFileName(imagePath));
+                    resultedImage = new ResultImage(markedImage, outputDirectory + Path.DirectorySeparatorChar + Path.GetFileName(imagePath));
                     markedImage.Save(resultedImage.Path);
                 }
             }
