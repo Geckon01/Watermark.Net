@@ -4,6 +4,7 @@ using SixLabors.ImageSharp.Drawing.Processing;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using Watermark.Net.src.WatermarkNet.Enums;
+using Watermark.Net.src.WatermarkNet.Models.Definitions;
 using Watermark.Net.src.WatermarkNet.Types;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -36,7 +37,7 @@ namespace Watermark.Net.src.WatermarkNet.Core
         /// <param name="watermark">Watermark configuration.</param>
         /// <returns>List of processed images with watermark information.</returns>
         public List<WmarkedImage> ProcessDirectory<T>(string directory, T watermark)
-            where T : WatermarkImageBase
+            where T : IWatermarkDefinition
         {
             List<WmarkedImage> processedImages = new List<WmarkedImage>();
             foreach (var imageFile in Directory.GetFiles(directory))
@@ -80,8 +81,8 @@ namespace Watermark.Net.src.WatermarkNet.Core
             using (var targetImage = Image.Load(imagePath))
             using (var watermarkImage = Image.Load(watermark.ImagePath))
             {
-                var scaledWmWidth = (int)Math.Round(watermarkImage.Width * watermark.Scale);
-                var scaledWmHeight = (int)Math.Round(watermarkImage.Height * watermark.Scale);
+                var scaledWmWidth = (int)Math.Round(watermarkImage.Width * watermark.Layout.Scale);
+                var scaledWmHeight = (int)Math.Round(watermarkImage.Height * watermark.Layout.Scale);
                 watermarkImage.Mutate(x => x.Resize(new Size(scaledWmWidth, scaledWmHeight)));
 
                 using (var markedImage = targetImage.Clone(ctx => this.ApplyScalingWaterMarkImage(ctx, watermark, watermarkImage, targetImage)))
@@ -255,32 +256,32 @@ namespace Watermark.Net.src.WatermarkNet.Core
             float scalingFactor = Math.Min(imgSize.Width / size.Width, imgSize.Height / size.Height);
 
             // Create a new font
-            SixLabors.Fonts.Font scaledFont = new SixLabors.Fonts.Font(watermark.Font, scalingFactor / 16 * (watermark.Font.Size * watermark.Scale));
+            SixLabors.Fonts.Font scaledFont = new SixLabors.Fonts.Font(watermark.Font, scalingFactor / 16 * (watermark.Font.Size * watermark.Layout.Scale));
             //processingContext.SetGraphicsOptions(new GraphicsOptions { AlphaCompositionMode = SixLabors.ImageSharp.PixelFormats.PixelAlphaCompositionMode.Clear});
             //If set, apply backround color
-            if (watermark.BackroundColor != null)
-                processingContext.BackgroundColor((Color)watermark.BackroundColor);
+            if (watermark.Style.Color != null)
+                processingContext.BackgroundColor((Color)watermark.Style.Color);
 
             var textOptions = new RichTextOptions(scaledFont)
             {
                 ColorFontSupport = ColorFontSupport.MicrosoftColrFormat,
-                Origin = CalcWatermarkOrigin(imgSize.Width, imgSize.Height, scaledFont.Size, watermark.Position),
-                HorizontalAlignment = HorizontalAlignmentFromPosition(watermark.Position),
+                Origin = CalcWatermarkOrigin(imgSize.Width, imgSize.Height, scaledFont.Size, watermark.Layout.Position),
+                HorizontalAlignment = HorizontalAlignmentFromPosition(watermark.Layout.Position),
                 VerticalAlignment = VerticalAlignment.Top,
             };
 
-            if (watermark.Pave)
+            if (watermark.Style.Pave)
             {
                foreach (ImagePosition position in (ImagePosition[])Enum.GetValues(typeof(ImagePosition)))
                 {
                     textOptions.Origin = CalcWatermarkOrigin(imgSize.Width, imgSize.Height, scaledFont.Size, position);
                     textOptions.HorizontalAlignment = HorizontalAlignmentFromPosition(position);
-                    processingContext.DrawText(textOptions, watermark.Text, watermark.Color);
+                    processingContext.DrawText(textOptions, watermark.Text, watermark.Style.Color);
                 }
                 return processingContext;
             }
             return processingContext
-                .DrawText(textOptions, watermark.Text, watermark.Color);
+                .DrawText(textOptions, watermark.Text, watermark.Style.Color);
         }
 
         /// <summary>
@@ -311,20 +312,20 @@ namespace Watermark.Net.src.WatermarkNet.Core
                    : watermarkImage.Height / scaleFactor;
 
             //If set, apply backround color
-            if (watermark.BackroundColor != null)
-                processingContext.BackgroundColor((Color)watermark.BackroundColor);
+            if (watermark.Style.Color != null)
+                processingContext.BackgroundColor((Color)watermark.Style.Color);
 
             watermarkImage.Mutate(x => x.Resize(new Size((int)scaledWmWidth, (int)scaledWmHeight)));
-            var wmPositionOrigin = CalcWatermarkOrigin(targetImage.Width, targetImage.Height, watermarkImage.Width, watermarkImage.Height, watermark.Position);
+            var wmPositionOrigin = CalcWatermarkOrigin(targetImage.Width, targetImage.Height, watermarkImage.Width, watermarkImage.Height, watermark.Layout.Position);
 
-            if (watermark.Pave)
+            if (watermark.Style.Pave)
             {
                 foreach (ImagePosition position in (ImagePosition[])Enum.GetValues(typeof(ImagePosition)))
                 {
                     wmPositionOrigin = CalcWatermarkOrigin(targetImage.Width, targetImage.Height, watermarkImage.Width, watermarkImage.Height, position);
                     try
                     {
-                        processingContext.DrawImage(watermarkImage, wmPositionOrigin, watermark.Opacity);
+                        processingContext.DrawImage(watermarkImage, wmPositionOrigin, watermark.Style.Opacity);
                     }
                     catch (Exception ex)
                     {
@@ -334,7 +335,7 @@ namespace Watermark.Net.src.WatermarkNet.Core
                 return processingContext;
             }
 
-            return processingContext.DrawImage(watermarkImage, wmPositionOrigin, watermark.Opacity);
+            return processingContext.DrawImage(watermarkImage, wmPositionOrigin, watermark.Style.Opacity);
         }
     }
 }
