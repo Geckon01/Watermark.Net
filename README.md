@@ -1,198 +1,308 @@
 # Watermark.Net
+
 [![.NET](https://github.com/Geckon01/Watermark.Net/actions/workflows/dotnet.yml/badge.svg)](https://github.com/Geckon01/Watermark.Net/actions/workflows/dotnet.yml)
 ![NuGet Version](https://img.shields.io/nuget/v/Watermark.Net)
-![NuGet Downloads](https://img.shields.io/nuget/dt/Watermark.Net?link=https%3A%2F%2Fwww.nuget.org%2Fpackages%2FWatermark.Net%2F)
-![Lecense](https://img.shields.io/badge/license-MIT-green)
+![NuGet Downloads](https://img.shields.io/nuget/dt/Watermark.Net)
+![License](https://img.shields.io/badge/license-MIT-green)
 ![GitHub last commit](https://img.shields.io/github/last-commit/Geckon01/Watermark.Net?display_timestamp=author)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/e6340e249ad743bc99c1745aaa0a9838)](https://app.codacy.com/gh/Geckon01/Watermark.Net/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/e6340e249ad743bc99c1745aaa0a9838)](https://app.codacy.com/gh/Geckon01/Watermark.Net/dashboard)
 
-**Watermark.Net** is an open-source .NET library for programmatically adding text and image watermarks to images. Built on [SixLabors.ImageSharp](https://github.com/SixLabors/ImageSharp), it provides a clean, extensible API for all your watermarking needs — from a single file to entire directory batches. Whether you need to protect copyrights, brand your media, or mark drafts, Watermark.Net makes image watermarking in C# simple and efficient.
+**Watermark.Net** is a modern, cross-platform **.NET image watermarking library** for adding **text and image watermarks** to photos and graphics using C#.
 
-### Features
+Built on top of [SixLabors.ImageSharp](https://github.com/SixLabors/ImageSharp), Watermark.Net provides a clean and extensible API for:
 
-- 🖼️ **Multi-format support** — JPEG, PNG, BMP, GIF
-- ✏️ **Text watermarks** — custom fonts, colors, sizes, rotation, and 9-zone positioning
-- 🖌️ **Image watermarks** — PNG transparency, scaling, and opacity control (0.0–1.0)
-- 🧱 **Pave (tiling) mode** — repeat the watermark across the entire image surface
-- 🧩 **9 preset positions** — TopLeft, TopCenter, TopRight, CenterLeft, Center, CenterRight, BottomLeft, BottomCenter, BottomRight
-- 🎨 **Custom styling** — background color, opacity, rotation angle, and padding
-- 📁 **Batch processing** — watermark all images in a directory with a single method call
-- 🔌 **Dependency injection ready** — `IFileManager` abstraction for testing and custom file I/O
-- 🔄 **Backward compatible** — legacy `Watermarker` API still supported (marked as `[Obsolete]`)
+- image watermarking in .NET
+- batch image processing
+- copyright protection
+- logo overlays
+- branding automation
+- draft/staging image generation
+
+Perfect for ASP.NET applications, media pipelines, SaaS platforms, desktop tools, automation scripts, and backend image processing services.
 
 ---
 
-## Installation
+## Why Watermark.Net?
 
-Install the [NuGet package](https://www.nuget.org/packages/Watermark.Net/):
+- ✅ Modern **.NET 8+** architecture
+- ✅ Fully **cross-platform** (Windows, Linux, macOS)
+- ✅ Powered by **ImageSharp**
+- ✅ Simple and clean API
+- ✅ Batch directory watermarking
+- ✅ Text and image watermark support
+- ✅ Tiling / repeated watermark mode
+- ✅ Dependency Injection friendly
+- ✅ Open-source and MIT licensed
+
+---
+
+# Features
+
+## Text Watermarks
+
+Add fully customizable text overlays:
+
+- Custom fonts
+- Font sizing
+- Rotation
+- Opacity
+- Padding
+- 9-position alignment system
+- Tiled/pattern mode
+
+## Image Watermarks
+
+Overlay logos or transparent PNG files:
+
+- PNG transparency support
+- Opacity control
+- Scaling
+- Positioning
+- Repeated/tiled mode
+
+## Batch Processing
+
+Process entire folders of images with a single method call.
+
+Supports:
+
+- JPEG
+- PNG
+- BMP
+- GIF
+
+---
+
+# Installation
+
+Install from NuGet:
 
 ```bash
 dotnet add package Watermark.Net
 ```
 
-Requires **.NET 8** or later.
+Or via Package Manager:
+
+```powershell
+Install-Package Watermark.Net
+```
+
+NuGet package:
+
+https://www.nuget.org/packages/Watermark.Net/
+
+Requirements:
+
+- .NET 8 or later
 
 ---
 
-## Quick Start
+# Quick Start
 
-### Add a Text Watermark
+## Add a Text Watermark
 
 ```csharp
 using SixLabors.Fonts;
 using SixLabors.ImageSharp;
-using Watermark.Net.src.WatermarkNet.Core;
-using Watermark.Net.src.WatermarkNet.Enums;
-using Watermark.Net.src.WatermarkNet.Models.Definitions;
+using WatermarkNet.Core;
+using WatermarkNet.Enums;
+using WatermarkNet.Models.Definitions;
 
 var pipeline = new WatermarkPipeline(new FileManager(), new ImageRenderer());
 
 var watermark = new TextWatermark
 {
-    Text = "WATERMARK",
+    Text = "CONFIDENTIAL",
     Font = SystemFonts.CreateFont("Arial", 36),
-    Layout = { Position = ImagePosition.BottomRight, Scale = 0.5f },
-    Style = { Color = Color.White }
+
+    Layout =
+    {
+        Position = ImagePosition.BottomRight,
+        Scale = 0.5f
+    },
+
+    Style =
+    {
+        Color = Color.White,
+        Opacity = 0.8f
+    }
 };
 
-ResultImage result = pipeline.ProcessImage("input.jpg", "output", watermark);
+ResultImage result = pipeline.ProcessImage(
+    "input.jpg",
+    "output",
+    watermark
+);
+
 Console.WriteLine($"Saved to: {result.Path}");
 ```
 
-### Add an Image Watermark
+---
+
+## Add an Image Watermark
 
 ```csharp
 using SixLabors.ImageSharp;
-using Watermark.Net.src.WatermarkNet.Core;
-using Watermark.Net.src.WatermarkNet.Enums;
-using Watermark.Net.src.WatermarkNet.Models.Definitions;
+using WatermarkNet.Core;
+using WatermarkNet.Enums;
+using WatermarkNet.Models.Definitions;
 
 var pipeline = new WatermarkPipeline(new FileManager(), new ImageRenderer());
 
 var watermark = new ImageWatermark
 {
     ImagePath = "logo.png",
-    Layout = { Scale = 0.3f, Position = ImagePosition.Center },
-    Style = { Opacity = 0.7f, Pave = true }
+
+    Layout =
+    {
+        Position = ImagePosition.Center,
+        Scale = 0.3f
+    },
+
+    Style =
+    {
+        Opacity = 0.7f,
+        Pave = true
+    }
 };
 
-List<ResultImage> results = pipeline.ProcessDirectory("images", "output", watermark);
+List<ResultImage> results = pipeline.ProcessDirectory(
+    "images",
+    "output",
+    watermark
+);
+
 Console.WriteLine($"Processed {results.Count} images");
 ```
 
 ---
 
-## Architecture
+# Common Use Cases
 
-Watermark.Net follows a clean **pipeline architecture** with clear separation of concerns:
+Watermark.Net is commonly used for:
 
-```
+- Photo copyright protection
+- E-commerce product branding
+- SaaS image pipelines
+- AI-generated image labeling
+- CMS systems
+- Social media automation
+- Media processing backends
+- ASP.NET image services
+- Bulk image processing
+- Internal document marking
+
+---
+
+# Architecture
+
+Watermark.Net follows a lightweight pipeline architecture with clear separation of responsibilities.
+
+```text
 ┌──────────────────────────────────────┐
-│           WatermarkPipeline          │  ← Orchestrator layer
-│  (coordinates I/O and rendering)     │
+│          WatermarkPipeline           │
+│      Main orchestration layer        │
 ├──────────────────────────────────────┤
-│  IFileManager / FileManager          │  ← File I/O abstraction
-│  (loading, saving, enumeration)      │
+│       IFileManager / FileManager     │
+│         File system abstraction      │
 ├──────────────────────────────────────┤
-│           ImageRenderer              │  ← Pure rendering engine
-│  (image processing, no I/O)          │
+│            ImageRenderer             │
+│      Pure image rendering engine     │
 └──────────────────────────────────────┘
 ```
 
-- **[`WatermarkPipeline`](Watermark.Net/src/WatermarkNet.Common/WatermarkPipeline.cs)** — the main entry point that orchestrates file operations and rendering.
-- **[`IFileManager`](Watermark.Net/src/WatermarkNet.Common/IFileManager.cs)** / **[`FileManager`](Watermark.Net/src/WatermarkNet.Common/FileManager.cs)** — abstracts all file system I/O. Swap this for custom storage or unit testing.
-- **[`ImageRenderer`](Watermark.Net/src/WatermarkNet.Common/ImageRenderer.cs)** — a pure image processing engine. Accepts in-memory `Image` objects, returns processed `Image` instances. No file I/O dependency.
+## Components
+
+### `WatermarkPipeline`
+
+Main entry point responsible for:
+
+- file handling
+- pipeline orchestration
+- watermark processing
+
+### `ImageRenderer`
+
+Pure rendering engine:
+
+- no filesystem dependency
+- in-memory image processing
+- reusable rendering logic
+
+### `IFileManager`
+
+Abstraction layer for:
+
+- local files
+- cloud storage integration
+- testing/mocking
 
 ---
 
-## Configuration Reference
+# Watermark Types
 
-### [`WatermarkLayout`](Watermark.Net/src/WatermarkNet.Models/Layout/WatermarkLayout.cs)
-
-Controls *where* and *how big* the watermark appears.
-
-| Property     | Type           | Default  | Description                                |
-|--------------|----------------|----------|--------------------------------------------|
-| `Position`   | `ImagePosition`| `TopLeft`| One of 9 predefined positions              |
-| `Scale`      | `float`        | `0`      | Scale factor relative to image size        |
-| `RotateAngle`| `int`          | `0`      | Rotation angle in degrees                  |
-| `Padding`    | `float`        | `0`      | Padding space around the watermark (px)    |
-
-### [`WatermarkStyle`](Watermark.Net/src/WatermarkNet.Models/Styling/WatermarkStyle.cs)
-
-Controls *how* the watermark looks.
-
-| Property  | Type    | Default  | Description                                    |
-|-----------|---------|----------|------------------------------------------------|
-| `Opacity` | `float` | `0`      | Transparency level — `0.0` (transparent) to `1.0` (opaque) |
-| `Pave`    | `bool`  | `false`  | When `true`, tiles the watermark across the image |
-| `Color`   | `Color` | `default`| Background or text color                       |
-
-### [`ImagePosition`](Watermark.Net/src/WatermarkNet.Enums/ImagePosition.cs)
-
-All 9 available positions:
-
-| Name           | Description        |
-|----------------|--------------------|
-| `TopLeft`      | Top-left corner    |
-| `TopCenter`    | Top-center         |
-| `TopRight`     | Top-right corner   |
-| `CenterLeft`   | Middle-left        |
-| `Center`       | Exact center       |
-| `CenterRight`  | Middle-right       |
-| `BottomLeft`   | Bottom-left corner |
-| `BottomCenter` | Bottom-center      |
-| `BottomRight`  | Bottom-right corner|
-
-### Model types
-
-| Type                                              | Description                                    |
-|---------------------------------------------------|------------------------------------------------|
-| [`TextWatermark`](Watermark.Net/src/WatermarkNet.Models/Definitions/TextWatermark.cs)   | Text watermark configuration (`Text`, `Font`)  |
-| [`ImageWatermark`](Watermark.Net/src/WatermarkNet.Models/Definitions/ImageWatermark.cs) | Image watermark configuration (`ImagePath`)    |
-| [`ResultImage`](Watermark.Net/src/WatermarkNet.Models/Definitions/ResultImage.cs)       | Output result (`.Image` + `.Path`)             |
-| [`IWatermarkDefinition`](Watermark.Net/src/WatermarkNet.Models/Definitions/IWatermarkDefinition.cs) | Base interface for custom watermark definitions |
+| Type | Description |
+|---|---|
+| `TextWatermark` | Text-based watermark configuration |
+| `ImageWatermark` | Image/logo watermark configuration |
+| `ResultImage` | Processing result model |
+| `IWatermarkDefinition` | Base watermark abstraction |
 
 ---
 
-## Advanced Usage
+# Positioning System
 
-### Pave (Tiling) Mode
+Supports 9 built-in alignment positions:
 
-Tile the watermark across every position on the image:
+| Position |
+|---|
+| TopLeft |
+| TopCenter |
+| TopRight |
+| CenterLeft |
+| Center |
+| CenterRight |
+| BottomLeft |
+| BottomCenter |
+| BottomRight |
+
+---
+
+# Advanced Usage
+
+## Tiled / Pave Mode
+
+Repeat watermark across the entire image:
 
 ```csharp
 var watermark = new TextWatermark
 {
     Text = "DRAFT",
     Font = SystemFonts.CreateFont("Arial", 36),
-    Style = { Color = Color.Red, Pave = true },
-    Layout = { Scale = 0.3f }
+
+    Style =
+    {
+        Color = Color.Red,
+        Pave = true
+    },
+
+    Layout =
+    {
+        Scale = 0.3f
+    }
 };
 ```
 
-### Opacity Control
+---
 
-Create a subtle, semi-transparent watermark:
-
-```csharp
-var watermark = new ImageWatermark
-{
-    ImagePath = "logo.png",
-    Style = { Opacity = 0.3f },  // 30% opacity
-    Layout = { Position = ImagePosition.Center, Scale = 0.5f }
-};
-```
-
-### Custom Positioning & Rotation
-
-Place a rotated watermark with padding:
+## Rotation & Padding
 
 ```csharp
 var watermark = new TextWatermark
 {
     Text = "CONFIDENTIAL",
     Font = SystemFonts.CreateFont("Arial", 24),
+
     Layout =
     {
         Position = ImagePosition.TopLeft,
@@ -202,22 +312,28 @@ var watermark = new TextWatermark
 };
 ```
 
-### Dependency Injection
+---
 
-Integrate with your DI container for better testability:
+## Dependency Injection
 
 ```csharp
 services.AddSingleton<IFileManager, FileManager>();
+
 services.AddSingleton<ImageRenderer>();
+
 services.AddTransient<WatermarkPipeline>();
 ```
 
-### Batch Directory Processing
+---
 
-Process all images in a directory with a single call:
+## Batch Directory Processing
 
 ```csharp
-var results = pipeline.ProcessDirectory("input_photos", "watermarked", textWatermark);
+var results = pipeline.ProcessDirectory(
+    "input_photos",
+    "watermarked",
+    textWatermark
+);
 
 foreach (var result in results)
 {
@@ -227,19 +343,47 @@ foreach (var result in results)
 
 ---
 
-## Contributing
+# Roadmap
 
-Contributions are welcome! To ensure a smooth collaboration:
+Planned improvements:
 
-1. **Fork** the repository and create a feature branch.
-2. **Write tests** for any new functionality (see the [`UnitTest`](UnitTest/UnitTest.cs) project).
-3. **Run all tests** before opening a pull request — make sure they pass.
-4. **Open a PR** with a clear description of the changes.
-
-All tests use sample images located in [`UnitTest/TestImages/`](UnitTest/TestImages/).
+- Async API support
+- Stream-based processing
+- SVG watermark support
+- Better tiling engine
+- Additional blend modes
+- Performance optimizations
 
 ---
 
-## License
+# Contributing
 
-Watermark.Net is licensed under the [MIT License](LICENSE).
+Contributions are welcome.
+
+To contribute:
+
+1. Fork the repository
+2. Create a feature branch
+3. Add or update tests
+4. Run the test suite
+5. Open a Pull Request
+
+Test assets are located in:
+
+```text
+UnitTest/TestImages/
+```
+
+---
+
+# License
+
+Watermark.Net is licensed under the MIT License.
+
+See the [LICENSE](LICENSE) file for details.
+
+---
+
+# Keywords
+
+.NET watermark library, C# watermark library, ImageSharp watermarking, image watermarking .NET, text watermark C#, image overlay library, batch image processing, ASP.NET image watermarking, cross-platform image processing, watermark NuGet package
