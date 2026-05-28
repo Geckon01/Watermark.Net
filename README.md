@@ -1,10 +1,16 @@
 # Watermark.Net
+
 [![.NET](https://github.com/Geckon01/Watermark.Net/actions/workflows/dotnet.yml/badge.svg)](https://github.com/Geckon01/Watermark.Net/actions/workflows/dotnet.yml)
 ![NuGet Version](https://img.shields.io/nuget/v/Watermark.Net)
 ![NuGet Downloads](https://img.shields.io/nuget/dt/Watermark.Net?link=https%3A%2F%2Fwww.nuget.org%2Fpackages%2FWatermark.Net%2F)
 ![Lecense](https://img.shields.io/badge/license-MIT-green)
 ![GitHub last commit](https://img.shields.io/github/last-commit/Geckon01/Watermark.Net?display_timestamp=author)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/e6340e249ad743bc99c1745aaa0a9838)](https://app.codacy.com/gh/Geckon01/Watermark.Net/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+
+### Other languages
+- 🇺🇸 [English](docs/README.md)
+- 🇷🇺 [Русский](docs/README.ru.md)
+- 🇨🇳 [简体中文](docs/README.zh-CN.md)
 
 **Watermark.Net** is an open-source .NET library for programmatically adding text and image watermarks to images. Built on [SixLabors.ImageSharp](https://github.com/SixLabors/ImageSharp), it provides a clean, extensible API for all your watermarking needs — from a single file to entire directory batches. Whether you need to protect copyrights, brand your media, or mark drafts, Watermark.Net makes image watermarking in C# simple and efficient.
 

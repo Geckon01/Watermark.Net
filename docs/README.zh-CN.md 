@@ -1,0 +1,134 @@
+# Watermark.Net
+
+[![.NET](https://github.com/Geckon01/Watermark.Net/actions/workflows/dotnet.yml/badge.svg)](https://github.com/Geckon01/Watermark.Net/actions/workflows/dotnet.yml)
+![NuGet Version](https://img.shields.io/nuget/v/Watermark.Net)
+![NuGet Downloads](https://img.shields.io/nuget/dt/Watermark.Net?link=https%3A%2F%2Fwww.nuget.org%2Fpackages%2FWatermark.Net%2F)
+![Lecense](https://img.shields.io/badge/license-MIT-green)
+![GitHub last commit](https://img.shields.io/github/last-commit/Geckon01/Watermark.Net?display_timestamp=author)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/e6340e249ad743bc99c1745aaa0a9838)](https://app.codacy.com/gh/Geckon01/Watermark.Net/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+
+**Watermark.Net** 是一个现代化、跨平台的 .NET 图像水印库，可使用 C# 为图片和图形添加文字或图片水印。
+
+该项目基于 SixLabors.ImageSharp 构建，并提供简洁且可扩展的 API，适用于：
+
+- .NET 图像水印处理
+- 批量图片处理
+- 图片版权保护
+- Logo 覆盖
+- 品牌自动化
+- 草稿/测试图片生成
+
+适用于 ASP.NET 应用、媒体处理流水线、SaaS 平台、桌面工具、自动化脚本以及后端图像处理服务。
+
+---
+
+# 为什么选择 Watermark.Net？
+
+- ✅ 基于现代 .NET 8+ 架构
+- ✅ 完全跨平台（Windows / Linux / macOS）
+- ✅ 基于 ImageSharp
+- ✅ 简洁易用的 API
+- ✅ 支持批量目录处理
+- ✅ 支持文字与图片水印
+- ✅ 支持平铺/重复水印模式
+- ✅ 支持 Dependency Injection
+- ✅ 开源 MIT 协议
+
+---
+
+# 功能特性
+
+## 文字水印
+
+支持：
+
+- 自定义字体
+- 字体大小
+- 旋转
+- 透明度
+- 边距
+- 九宫格定位系统
+- 平铺模式
+
+## 图片水印
+
+支持 Logo 与 PNG 图片覆盖：
+
+- PNG 透明度支持
+- 不透明度控制
+- 缩放
+- 定位
+- 平铺/重复模式
+
+## 批量处理
+
+使用单个方法即可处理整个目录中的图片。
+
+支持格式：
+
+- JPEG
+- PNG
+- BMP
+- GIF
+
+---
+
+# 安装
+
+```bash
+dotnet add package Watermark.Net
+```
+
+```powershell
+Install-Package Watermark.Net
+```
+
+要求：
+
+- .NET 8 或更高版本
+
+---
+
+# 快速开始
+
+## 添加文字水印
+
+```csharp
+var watermark = new TextWatermark
+{
+    Text = "CONFIDENTIAL",
+    Font = SystemFonts.CreateFont("Arial", 36)
+};
+```
+
+---
+
+## 添加图片水印
+
+```csharp
+var watermark = new ImageWatermark
+{
+    ImagePath = "logo.png"
+};
+```
+
+---
+
+# 常见使用场景
+
+- 图片版权保护
+- 电商产品图片品牌化
+- SaaS 图像处理流水线
+- AI 生成图片标记
+- CMS 系统
+- 社交媒体自动化
+- 后端图像处理服务
+- ASP.NET 图片服务
+- 批量图片处理
+- 内部文档标记
+
+---
+
+# License
+
+本项目基于 MIT License 开源。
