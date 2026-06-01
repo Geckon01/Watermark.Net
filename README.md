@@ -10,7 +10,7 @@
 ### Other languages
 - 🇺🇸 [English](docs/README.md)
 - 🇷🇺 [Русский](docs/README.ru.md)
-- 🇨🇳 [简体中文](docs/README.zh-CN.md)
+- 🇨🇳 [简体中文](docs/README.CN.md)
 
 **Watermark.Net** is an open-source .NET library for programmatically adding text and image watermarks to images. Built on [SixLabors.ImageSharp](https://github.com/SixLabors/ImageSharp), it provides a clean, extensible API for all your watermarking needs — from a single file to entire directory batches. Whether you need to protect copyrights, brand your media, or mark drafts, Watermark.Net makes image watermarking in C# simple and efficient.
 
